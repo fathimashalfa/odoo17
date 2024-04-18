@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record model="base.automation" id="my_automation">
+            <field name="name">My Automation</field>
+            <field name="model_id" ref="model_vehicle_repair"/>
+            <field name="trigger">on_create_or_write</field>
+            <field name="action_server_ids" eval="[Command.link(ref('vehicle_repair.change_state_contacts'))]"/>
+        </record>
+    </data>
+</odoo>

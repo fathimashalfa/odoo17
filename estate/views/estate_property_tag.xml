@@ -1,0 +1,31 @@
+<odoo>
+
+    <record id = "estate_property_tag_form_view" model = "ir.ui.view">
+        <field name = "name">Property Tag</field>
+        <field name = "model">estate.property.tag</field>
+        <field name = "arch" type = "xml">
+                <form string="Test">
+                    <sheet>
+                        <h1 style="font-size:50px;">
+                                <field name="name"/>
+                        </h1>
+                    </sheet>
+                </form>
+        </field>
+    </record>
+
+
+    <record id="property_tag_action" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">estate.property.tag</field>
+        <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="settings_menu" name="Settings" parent="estate_root">
+            <menuitem id="properties_tag_menu_action" action="property_tag_action" name="Property Tags"/>
+    </menuitem>
+
+
+
+</odoo>
+

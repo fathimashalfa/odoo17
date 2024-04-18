@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <data>
+       <record id="email_template_data" model="mail.template">
+           <field name="name">DELIVERY CONFIRMATION:</field>
+           <field name="model_id" ref="vehicle_repair.model_vehicle_repair"/>
+           <field name="email_from">{{object.service_advisor_id.email}}</field>
+           <field name="email_to">{{object.partner_id.email}}</field>
+<!--           <field name="report_template" ref="action_example_pdf"/>-->
+           <field name="subject">VEHICLE DELIVERY CONFIRMATION</field>
+           <field name="body_html" type="html">
+<div>
+    <p>
+        Dear<t t-out="object.partner_id.name"/>,
+       <br/>
+       <br/>
+       Your Vehicle is Ready For Delivery.
+       <br/>
+        Total Amount of Labour cost and ConsumedParts:<t t-out="object.sum_labour_component_cost"/>
+
+
+
+    </p>
+    Regards,
+    <br/>
+    <t t-out="object.company_id.name"/>
+</div>
+           </field>
+       </record>
+   </data>
+</odoo>

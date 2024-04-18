@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+      <data>
+		<record id="fleet_vehicle_model_category_demo" model="fleet.vehicle.model.category">
+			<field name="name">Brand Car </field>
+		</record>
+		<record id="fleet_vehicle_model_category_demo2" model="fleet.vehicle.model.category">
+			<field name="name">Luxury Cars </field>
+		</record>
+
+	</data>
+</odoo>

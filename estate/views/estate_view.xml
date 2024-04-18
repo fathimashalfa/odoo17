@@ -1,0 +1,146 @@
+<odoo>
+
+    <record id = "estate_tree_view" model = "ir.ui.view">
+        <field name = "name">Advertisement</field>
+        <field name = "model">estate</field>
+        <field name = "arch" type = "xml">
+                <tree string="Estate Details">
+                    <field name="name"/>
+                    <field name="postcode"/>
+                    <field name="date_availability"/>
+                    <field name="expected_price"/>
+                    <field name="bedrooms"/>
+                    <field name="living_area"/>
+                </tree>
+        </field>
+    </record>
+
+    <record id = "estate_form_view" model = "ir.ui.view">
+        <field name = "name">Advertisement123</field>
+        <field name = "model">estate</field>
+        <field name = "arch" type = "xml">
+                <form string="Test">
+                     <sheet>
+                         <h1 style="font-size:50px;">
+                             <field name="name"  placeholder="Enter the Name"/>
+                         </h1>
+
+                        <group>
+                            <group>
+                                <field name="product_type"/>
+                                <field name="postcode"/>
+                                <field name="available_from"/>
+                            </group>
+                            <group>
+                                <field name="expected_price"/>
+                                <field name="selling_price"/>
+                            </group>
+                            <notebook>
+
+                                <page string="Description">
+                                    <group>
+                                        <field name="description"/>
+                                        <field name="bedrooms"/>
+                                        <field name="living_area"/>
+                                        <field name="facades"/>
+                                        <field name="garage"/>
+                                        <field name="garden"/>
+                                        <field name="garden_area"/>
+                                        <field name="garden_orientation"/>
+                                    </group>
+                                </page>
+                                <page string="Other Info">
+                                    <group>
+                                        <field name="buyer"/>
+                                        <field name="salesperson"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+        </field>
+    </record>
+
+
+<!--    <record id = "property_form_view" model = "ir.ui.view">-->
+<!--        <field name = "name">Advertisement</field>-->
+<!--        <field name = "model">estate</field>-->
+<!--        <field name = "arch" type = "xml">-->
+<!--                <form>-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <group>-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="description"/>-->
+<!--                            </group>-->
+<!--                            <br> </br>-->
+<!--                            <br> </br>-->
+<!--                            <group>-->
+<!--                                <field name="postcode"/>-->
+<!--                                <field name="expected_price"/>-->
+<!--                                <field name="bedrooms"/>-->
+<!--                                <field name="facades"/>-->
+<!--                                <field name="garden"/>-->
+<!--                                <field name="garden_orientation"/>-->
+<!--                                <field name="active"/>-->
+
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="available_from"/>-->
+<!--                                <field name="selling_price"/>-->
+<!--                                <field name="living_area"/>-->
+<!--                                <field name="garage"/>-->
+<!--                                <field name="garden_area"/>-->
+<!--                                <field name="status"/>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+    <record id="estate_search" model="ir.ui.view">
+        <field name="name">estate search</field>
+        <field name="model">estate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="postcode"/>
+                <field name="expected_price"/>
+                <field name="selling_price"/>
+                <field name="bedrooms"/>
+                <field name="living_area"/>
+                <field name="date_availability"/>
+                <filter string="Status" name="status" domain="[('status','=','New'),('status','=','Offer Received')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Postcode" name="postcode" context="{'group_by':'postcode'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="property_action" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">estate</field>
+        <field name="view_mode">form,tree</field>
+    </record>
+
+    <record id="test_model_action" model="ir.actions.act_window">
+        <field name="name">Real Estate</field>
+        <field name="res_model">estate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="estate_root" name="Real Estate" action="test_model_action">
+        <menuitem id="advertisement_menu" name="Advertisement">
+            <menuitem id="properties_menu_action" action="property_action" name="Properties"/>
+        </menuitem>
+    </menuitem>
+
+
+
+
+</odoo>

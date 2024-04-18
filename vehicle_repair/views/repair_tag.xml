@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="vehicle_repair_tag_tree_view" model="ir.ui.view">
+        <field name="name">Repair Tag</field>
+        <field name="model">repair.tag</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="color" widget="color_picker"/>
+            </tree>
+        </field>
+    </record>
+    <record id = "vehicle_repair_tag_form_view" model = "ir.ui.view">
+        <field name = "name">Repair Tag</field>
+        <field name = "model">repair.tag</field>
+        <field name = "arch" type = "xml">
+                <form string="Test">
+                    <sheet>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                    </sheet>
+                </form>
+        </field>
+    </record>
+    <record id="vehicle_repair_tag_action" model="ir.actions.act_window">
+        <field name="name">Repair tags</field>
+        <field name="res_model">repair.tag</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+   <menuitem id="configuration_menu" name="Configurations" parent="vehicle_repair_menu_action">
+            <menuitem id="repair_tag_menu_action" action="vehicle_repair_tag_action" name="Repair Tags"/>
+    </menuitem>
+</odoo>

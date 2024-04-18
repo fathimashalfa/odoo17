@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record model="ir.module.category" id="vehicle_repair_user_groups">
+        <field name="name">Vehicle Repair</field>
+        <field name="description">User access levels for Vehicle Repair module</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="vehicle_repair_user_access" model="res.groups">
+            <field name="name">Technician</field>
+            <field name="category_id" ref="vehicle_repair_user_groups"/>
+    </record>
+    <record id="vehicle_repair_manager_access" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="vehicle_repair_user_groups"/>
+        <field name="implied_ids" eval="[(4, ref('vehicle_repair_user_access'))]"/>
+    </record>
+    <record id="vehicle_repair_manager_rule" model="ir.rule">
+        <field name="name">Manager can  see  All records</field>
+        <field ref="model_vehicle_repair" name="model_id"/>
+        <field name="groups" eval="[(4, ref('vehicle_repair_manager_access'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+    </record>
+    <record id="vehicle_repair_technician_rule" model="ir.rule">
+        <field name="name">Technician can only see their own records</field>
+        <field ref="model_vehicle_repair" name="model_id"/>
+        <field name="groups" eval="[(4, ref('vehicle_repair_user_access'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="domain_force">['|',('service_advisor_id','=',user.id),('service_advisor_id','=',False)]</field>
+    </record>
+</odoo>

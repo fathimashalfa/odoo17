@@ -1,0 +1,180 @@
+
+<!--<?xml version="1.0" encoding="utf-8" ?>-->
+<odoo>
+    <template id="report_vehicle_repair">
+        <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                   <div class="page">
+                        <div class="oe_structure">
+                             <style>
+                                .page {
+                                width: 100%;
+                                margin-top:10px;
+                                }
+                                table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin: auto;
+                                }
+                                th, td {
+                                border: 1px solid black;
+                                padding: 8px;
+                                }
+                                h2 {
+                                text-align: center;
+                                }
+                             </style>
+                            <h2>Vehicle Repair Report</h2>
+                            <t t-if="data.get('customer_count') == 1">
+                                <p>Customer:
+                                    <span t-out="data['report'][0]['customer']"/>
+                                </p>
+                            </t>
+                            <t t-if="data['service_advisor_count'] == 1">
+                                <p>Service Advisor:
+                                   <span t-out="data['report'][0]['user']"/>
+                                </p>
+                            </t>
+                            <t t-if="grouping_method == 'vehicle_type'">
+                                <h2>Vehicle Type</h2>
+                            </t>
+                            <t t-if="grouping_method == 'service_type'">
+                               <h2>Service Type</h2>
+                            </t>
+<!--                             loop for service type-->
+                            <t t-if="grouping_method == 'service_type'">
+                                <t t-set="loops" t-value="{sub['service_type'] for sub in data['report']}"/>
+                                <t t-foreach="loops" t-as="loop">
+                                    <p><b><t t-esc="loop"/></b></p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>vehicle model</th>
+                                                <th>vehicle Number</th>
+                                                <t t-if="data['customer_count'] >1">
+                                                   <th>customer</th>
+                                                </t>
+                                                <t t-if="data['service_advisor_count'] >1">
+                                                   <th>Service Advisor</th>
+                                                </t>
+                                                <th>Start date</th>
+                                                <th>End date</th>
+                                                <th>State</th>
+                                                <th>Estimated Amount</th>
+                                                <t t-if="grouping_method == 'vehicle_type'">
+                                                   <th>Service Type</th>
+                                                </t>
+                                                <t t-if="grouping_method == 'service_type'">
+                                                   <th>Vehicle Type</th>
+                                                </t>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+                                        <t t-foreach="data['report']" t-as="tr">
+                                            <t t-if="tr['service_type']==loop">
+                                                <tr>
+                                                    <td><t t-esc="tr.get('vehicle_model')"/></td>
+                                                    <td><t t-esc="tr.get('vehicle_number')"/></td>
+                                                     <t t-if="data['customer_count'] > 1">
+                                                        <td>
+                                                            <span t-esc="tr.get('customer')"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="data['service_advisor_count'] > 1">
+                                                        <td>
+                                                            <span t-esc="tr.get('user')"/>
+                                                        </td>
+                                                    </t>
+                                                    <td><t t-esc="tr.get('start_date')"/></td>
+                                                    <td><t t-esc="tr.get('delivery_date')"/></td>
+                                                    <td><t t-esc="tr.get('state')"/></td>
+                                                    <td><t t-esc="tr.get('estimated_amount')"/></td>
+                                                    <t t-if="grouping_method == 'vehicle_type'">
+                                                        <td>
+                                                            <span t-esc="tr.get('service_type')"/>
+                                                        </td>
+                                                    </t>
+                                                    <t t-if="grouping_method == 'service_type'">
+                                                        <td>
+                                                            <span t-esc="tr.get('vehicle_type')"/>
+                                                        </td>
+                                                    </t>
+                                              </tr>
+                                            </t>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                </t>
+                            </t>
+<!--                            loop for vehicle type-->
+                            <t t-if="grouping_method == 'vehicle_type'">
+                                <t t-set="loops" t-value="{sub['vehicle_type'] for sub in data['report']}"/>
+                                <t t-foreach="loops" t-as="loop">
+                                    <p><b><t t-esc="loop"/></b></p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>vehicle model</th>
+                                                <th>vehicle Number</th>
+                                                <t t-if="data['customer_count'] >1">
+                                                   <th>customer</th>
+                                                </t>
+                                                <t t-if="data['service_advisor_count'] >1">
+                                                   <th>Service Advisor</th>
+                                                </t>
+                                                <th>Start date</th>
+                                                <th>End date</th>
+                                                <th>State</th>
+                                                <th>Estimated Amount</th>
+                                                <t t-if="grouping_method == 'vehicle_type'">
+                                                   <th>Service Type</th>
+                                                </t>
+                                                <t t-if="grouping_method == 'service_type'">
+                                                   <th>Vehicle Type</th>
+                                                </t>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="data['report']" t-as="tr">
+                                                <t t-if="tr['vehicle_type']==loop">
+                                                    <tr>
+                                                        <td><t t-esc="tr.get('vehicle_model')"/></td>
+                                                        <td><t t-esc="tr.get('vehicle_number')"/></td>
+                                                         <t t-if="data['customer_count'] > 1">
+                                                            <td>
+                                                                <span t-esc="tr.get('customer')"/>
+                                                            </td>
+                                                        </t>
+                                                        <t t-if="data['service_advisor_count'] > 1">
+                                                            <td>
+                                                                <span t-esc="tr.get('user')"/>
+                                                            </td>
+                                                        </t>
+                                                        <td><t t-esc="tr.get('start_date')"/></td>
+                                                        <td><t t-esc="tr.get('delivery_date')"/></td>
+                                                        <td><t t-esc="tr.get('state')"/></td>
+                                                        <td><t t-esc="tr.get('estimated_amount')"/></td>
+                                                        <t t-if="grouping_method == 'vehicle_type'">
+                                                            <td>
+                                                                <span t-esc="tr.get('service_type')"/>
+                                                            </td>
+                                                        </t>
+                                                        <t t-if="grouping_method == 'service_type'">
+                                                            <td>
+                                                                <span t-esc="tr.get('vehicle_type')"/>
+                                                            </td>
+                                                        </t>
+                                                  </tr>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </t>
+                        </div>
+                   </div>
+                </t>
+        </t>
+    </template>
+
+</odoo>

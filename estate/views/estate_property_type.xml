@@ -1,0 +1,42 @@
+<odoo>
+
+    <record id="estate_property_type_tree_view" model="ir.ui.view">
+        <field name="name">Property types</field>
+        <field name="model">estate.property.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id = "estate_property_type_form_view" model = "ir.ui.view">
+        <field name = "name">Proper typeTag</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+                <form string="Test">
+                    <sheet>
+                        <h1 style="font-size:50px;">
+                                <field name="name"/>
+                        </h1>
+                    </sheet>
+                </form>
+        </field>
+    </record>
+
+
+
+
+    <record id="property_type_action" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">estate.property.type</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="settings_menu" name="Settings" parent="estate_root">
+            <menuitem id="properties_types_menu_action" action="property_type_action" name="Property Types"/>
+    </menuitem>
+
+
+
+</odoo>
