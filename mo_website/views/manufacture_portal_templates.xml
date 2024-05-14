@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="portal_my_manufacture" name="My Manufacture Orders">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Your Manufacture Orders</t>
+            </t>
+            <div t-if="not orders" class="alert alert-warning" role="alert">
+                There are currently no Manufacture orders for your account.
+            </div>
+            <t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>
+                            <span class='d-none d-md-inline'>Manufacture Order #</span>
+                            <span class='d-block d-md-none'>Ref.</span>
+                        </th>
+                        <th class="text-end">Scheduled Date</th>
+                        <th class="text-end">Quantity</th>
+                    </tr>
+                </thead>
+                <t t-foreach="orders" t-as="order">
+                    <tr>
+                        <td>
+                            <t t-out="order.name"/>
+                        </td>
+                        <td class="text-end">
+                            <span t-field="order.date_start" t-options="{'widget': 'date'}"/>&amp;nbsp;
+                            <span class='d-none d-md-inline' t-field="order.date_start" t-options="{'time_only': True}"/>
+                        </td>
+
+                        <td class="text-end"><span t-field="order.product_qty"/></td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="portal_my_manufacture_menu"
+          	inherit_id="portal.portal_breadcrumbs" priority="60">
+    	<xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+        	<li t-if="page_name == 'Manufacture'"
+            	class="breadcrumb-item active">
+            	<span>My Manufacture Order</span>
+        	</li>
+    	</xpath>
+	</template>
+
+</odoo>

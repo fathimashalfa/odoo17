@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    <t t-name="pos.product_list_view"
+         t-inherit="point_of_sale.ProductsWidget"
+         t-inherit-mode="extension">
+             <xpath expr="//ProductCard" position="attributes">
+                 <attribute name="spanish">product.spanish_name</attribute>
+             </xpath>
+    </t>
+
+</templates>

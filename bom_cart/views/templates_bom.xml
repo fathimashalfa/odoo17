@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <template id="bill_material_desc_view" inherit_id="website_sale.cart_lines">
+        <xpath expr="//a[hasclass('js_delete_product')]" position="before">
+            <t t-set="multiple_prod_ids" t-value="request.env['website'].get_current_website().multiple_prod_ids.product_tmpl_id"/>
+            <div>
+                <t t-if="line.product_template_id in multiple_prod_ids">
+                    <t t-set="references"
+                       t-value="request.env['mrp.bom'].search([('product_tmpl_id','=',line.product_template_id.id)])"/>
+                    <p>Bill of materials</p>
+                        <t t-foreach="references" t-as="ref">
+                            <t t-esc="ref.code"/>-->
+                               <t t-foreach="ref.bom_line_ids.product_tmpl_id" t-as="products">
+<!--                                   <div>-->
+                                       <t t-esc="products.name"/>,
+<!--                                   </div>-->
+                               </t>
+                            <br> </br>
+                        </t>
+                </t>
+            </div>
+        </xpath>
+     </template>
+</odoo>

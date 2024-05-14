@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template">
+	<t t-name="vehicle_repair.repair_snipped_carousel">
+    	<div id="course_carousel" class="container carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="interval">
+       	<div class="carousel-inner row w-100 mx-auto" role="listbox">
+          	<t t-foreach="data" t-as="records" t-key="records.id">
+                	<div t-att-class="records.is_active ? 'carousel-item active' : 'carousel-item'">
+                     	<div class="row">
+                        	<t t-foreach="records" t-as="item" t-key="item.id">
+                           	<div class="block span3 col-3">
+                               	<div class="card-group">
+									<a t-attf-href="/snippet_details/{{item.id}}">
+										<div class="card">
+											<img class="card-img-top" t-attf-src="data:image/png;base64,{{item.image}}"
+													style="padding: 0px; margin: 0px; height: 160px; width:305px;"/>
+											<h4 class="mb-0" style="text-align: center;"><t t-esc="item.partner_id[1]"/></h4>
+											<h5 style="text-align: center;color:grey;"><t t-esc="item.vehicle_model_id[1]"/></h5>
+											<h6 style="text-align: center;color:red;"><t t-esc="item.vehicle_type_id[1]"/></h6>
+										</div>
+									</a>
+                               	</div>
+                           	</div>
+                        	</t>
+                    	</div>
+                	</div>
+          	</t>
+      	</div>
+    	</div>
+    	<a t-attf-href="#course_carousel" class="carousel-control-prev" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">
+        	<span class="fa fa-chevron-circle-left fa-2x"/>
+<span class="visually-hidden">Previous</span>
+    	</a>
+ <a t-attf-href="#course_carousel" class="carousel-control-next" data-bs-slide="next" role="button" aria-label="Next" title="Next">
+        	<span class="fa fa-chevron-circle-right fa-2x"/>
+        	<span class="visually-hidden">Next</span>
+    	</a>
+	</t>
+</templates>

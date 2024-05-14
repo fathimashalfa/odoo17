@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="test_template">
+    <Customer>
+        <Customer>
+           <Name><t t-esc="partner.name"/></Name>
+           <Email><t t-esc="partner.email"/></Email>
+           <Phone><t t-esc="partner.phone"/></Phone>
+        </Customer>
+        <Address>
+           <Country><t t-esc="partner.country_id.name"/></Country>
+           <State><t t-esc="partner.state_id.name"/></State>
+           <Street><t t-esc="partner.street"/></Street>
+           <Street2><t t-esc="partner.street2"/></Street2>
+        </Address>
+        <t t-if="partner.child_ids">
+        <Childs>
+            <t t-foreach="partner.child_ids" t-as="child">
+            <Customer>
+                <Name><t t-esc="child.name"/></Name>
+                <Email><t t-esc="child.email"/></Email>
+                <Phone><t t-esc="child.phone"/></Phone>
+            </Customer>
+            <Address>
+                <Country><t t-esc="child.country_id.name"/></Country>
+                <State><t t-esc="child.state_id.name"/></State>
+                <Street><t t-esc="child.street"/></Street>
+                <Street2><t t-esc="child.street2"/></Street2>
+            </Address>
+            </t>
+        </Childs>
+        </t>
+    </Customer>
+    </template>
+</odoo>

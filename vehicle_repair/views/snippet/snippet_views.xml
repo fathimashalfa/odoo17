@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="vehicle_repair_snippet" name=" Vehicle Snippet">
+        <!--        Template display the four newly created repairs as dynamic snippet-->
+        <section class="vehicle_repair_product_snippet">
+           <div class="row">
+               <div class="col-md-12" style="padding-top: 10px;">
+                   <h1 style="color: black ;text-align: center;"><b>Vehicle Repair Management</b></h1>
+               </div>
+            </div>
+            <div id="latest_records" style="padding-top: 10px;"/>
+        </section>
+    </template>
+    <template id="vehicle_snippet" inherit_id="website.snippets" name="Vehicle Repair Snippet">
+    <xpath expr="//div[@id='snippet_effect']//t[@t-snippet][last()]"
+               position="after">
+            <t t-snippet="vehicle_repair.vehicle_repair_snippet"/>
+    </xpath>
+    </template>
+</odoo>

@@ -2,7 +2,7 @@
 {
     'name': "PDF demo",
     'version': '17.0',
-    'depends': ['base','web','sale_management','stock'],
+    'depends': ['base',],
     'author': "shalfa",
     'category': 'Sales',
     'description': """
@@ -10,16 +10,18 @@
     """,
     # data files always loaded at installation
     'data': [
-        'data/paper_paper_format.xml',
-        'report/report_layout.xml',
-        'report/demo_report_template.xml',
+        # 'data/paper_paper_format.xml',
+        # 'data/test_template.xml',
+        # 'views/template_view.xml',
+        # 'report/report_layout.xml',
+        # 'report/demo_report_template.xml',
 
 
     ],
-    'external_dependencies':{
-        'python':['matplotlib'],
-
-    },
+    # 'external_dependencies':{
+    #     'python':['matplotlib'],
+    #
+    # },
 
     'license' : 'LGPL-3',
     'installable': True,

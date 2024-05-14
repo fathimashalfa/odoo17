@@ -93,7 +93,6 @@ class VehicleRepairWizard(models.TransientModel):
             raise UserError("Please check your credentials!!!")
 
     def action_xlsx_report(self):
-        print("huuvurbuybvubvubuhvbubvh")
         self._check_to_date_from_date()
         report = self.get_query()
         counts = self.action_pdf_report()
@@ -110,9 +109,6 @@ class VehicleRepairWizard(models.TransientModel):
             'customer_count': customer_count,
             'service_advisor_count': service_advisor_count
         }
-        print("data", data)
-        print(data['grouping_method'])
-        print("report", report)
         if report:
             return {
                 'type': 'ir.actions.report',
@@ -133,12 +129,18 @@ class VehicleRepairWizard(models.TransientModel):
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         sheet = workbook.add_worksheet()
         cell_format = workbook.add_format(
-            {'font_size': '12px', 'align': 'center'})
+            {'font_size': '11px', 'align': 'center', 'bold': True})
         head = workbook.add_format(
             {'align': 'center', 'bold': True, 'font_size': '20px'})
         txt = workbook.add_format({'font_size': '10px', 'align': 'center'})
         sheet.set_column('B:Q', 18)
         sheet.merge_range('B2:I3', ' VEHICLE EXCEL REPORT', head)
+        if data.get('start_date'):
+            sheet.write('C5', 'Start Date:', cell_format)
+            sheet.write('D5', data['start_date'], txt)
+        if data.get('end_date'):
+            sheet.write('G5', 'End date:', cell_format)
+            sheet.write('H5', data['end_date'], txt)
         if data.get('customer_count') == 1:
             if data['report']:
                 sheet.write('C6', 'Customer:', cell_format)
@@ -151,24 +153,130 @@ class VehicleRepairWizard(models.TransientModel):
             sheet.merge_range('C8:H9', 'SERVICE TYPE', cell_format)
         if data['grouping_method'] == 'vehicle_type':
             sheet.merge_range('C8:H9', 'VEHICLE TYPE', cell_format)
-            
+        i = 10
+        if data['grouping_method'] == 'service_type':
+            loops = {sub['service_type'] for sub in data['report']}
+            for x in loops:
+                sheet.write(f'B{i}', x, cell_format)
+                i = i + 1
+                sheet.write(f'C{i}', 'Vehicle Model', cell_format)
+                sheet.write(f'D{i}', 'Vehicle Number', cell_format)
+                if data.get('customer_count') > 1:
+                    sheet.write(f'B{i}', 'Customer', cell_format)
+                if data.get('customer_count') == 0:
+                    sheet.write(f'B{i}', 'Customer', cell_format)
+                if data.get('service_advisor_count') > 1:
+                    sheet.write(f'E{i}', 'Service Advisor', cell_format)
+                if data.get('service_advisor_count') == 0:
+                    sheet.write(f'E{i}', 'Service Advisor', cell_format)
+                    # sheet.write(f'F{i}', 'Start date', cell_format)
+                    sheet.write(f'F{i}', 'Delivery Date', cell_format)
+                    sheet.write(f'G{i}', 'State', cell_format)
+                    sheet.write(f'H{i}', 'Estimated Amount', cell_format)
+                    if data['grouping_method'] == 'service_type':
+                        sheet.write(f'I{i}', 'Vehicle type', cell_format)
+                    if data['grouping_method'] == 'vehicle_type':
+                        sheet.write(f'I{i}', 'Service type', cell_format)
+                else:
+                    sheet.write(f'F{i}', 'Delivery date', cell_format)
+                    sheet.write(f'G{i}', 'State', cell_format)
+                    sheet.write(f'H{i}', 'Estimated Amount', cell_format)
+                    if data['grouping_method'] == 'service_type':
+                        sheet.write(f'I{i}', 'Vehicle type', cell_format)
+                    if data['grouping_method'] == 'vehicle_type':
+                        sheet.write(f'I{i}', 'Service type', cell_format)
+                # i += 1
+                for rec in data['report']:
 
-
-        # sheet.write('B9', 'Vehicle Model', cell_format)
-        # sheet.write('C9', 'Vehicle Number', cell_format)
-        # sheet.write('D9', 'Start date', cell_format)
-        # if data['start_date']:
-        #     strt = data['start_date']
-        # else:
-        #     strt = ''
-        # sheet.write('D10', strt, txt)
-        # sheet.write('E9', 'End date', cell_format)
-        # end = ''
-        # if data['end_date']:
-        #     end = data['end_date']
-        # sheet.write('E10', end, txt)
-        # sheet.write('F9', 'State', cell_format)
-        # sheet.write('G9', 'Estimated Amount', cell_format)
+                    if rec['service_type'] == x:
+                        i += 1
+                        print(rec['service_type'])
+                        sheet.write(f'C{i}', rec['vehicle_model'], txt)
+                        sheet.write(f'D{i}', rec['vehicle_number'], txt)
+                        if data.get('customer_count') > 1:
+                            sheet.write(f'B{i}', rec['customer'], txt)
+                        if data.get('customer_count') == 0:
+                            sheet.write(f'B{i}', rec['customer'], txt)
+                        if data.get('service_advisor_count') > 1:
+                            sheet.write(f'E{i}', rec['user'], txt)
+                        if data.get('service_advisor_count') == 0:
+                            sheet.write(f'E{i}', rec['user'], txt)
+                            sheet.write(f'F{i}', rec['delivery_date'], txt)
+                            sheet.write(f'G{i}', rec['state'], txt)
+                            sheet.write(f'H{i}', rec['estimated_amount'], txt)
+                            if data['grouping_method'] == 'service_type':
+                                sheet.write(f'I{i}', rec['vehicle_type'], txt)
+                            if data['grouping_method'] == 'vehicle_type':
+                                sheet.write(f'I{i}', rec['service_type'], txt)
+                        else:
+                            sheet.write(f'F{i}', rec['delivery_date'], txt)
+                            sheet.write(f'G{i}', rec['state'], txt)
+                            sheet.write(f'H{i}', rec['estimated_amount'], txt)
+                            if data['grouping_method'] == 'service_type':
+                                sheet.write(f'I{i}', rec['vehicle_type'], txt)
+                            if data['grouping_method'] == 'vehicle_type':
+                                sheet.write(f'I{i}', rec['service_type'], txt)
+                i += 2
+        # loop for vehicle type
+        if data['grouping_method'] == 'vehicle_type':
+            loops = {sub['vehicle_type'] for sub in data['report']}
+            for x in loops:
+                sheet.write(f'B{i}', x, cell_format)
+                i = i + 1
+                sheet.write(f'C{i}', 'Vehicle Model', cell_format)
+                sheet.write(f'D{i}', 'Vehicle Number', cell_format)
+                if data.get('customer_count') > 1:
+                    sheet.write(f'B{i}', 'Customer', cell_format)
+                if data.get('customer_count') == 0:
+                    sheet.write(f'B{i}', 'Customer', cell_format)
+                if data.get('service_advisor_count') > 1:
+                    sheet.write(f'E{i}', 'Service Advisor', cell_format)
+                if data.get('service_advisor_count') == 0:
+                    sheet.write(f'E{i}', 'Service Advisor', cell_format)
+                    sheet.write(f'F{i}', 'Delivery date', cell_format)
+                    sheet.write(f'G{i}', 'State', cell_format)
+                    sheet.write(f'H{i}', 'Estimated Amount', cell_format)
+                    if data['grouping_method'] == 'service_type':
+                        sheet.write(f'I{i}', 'Vehicle type', cell_format)
+                    if data['grouping_method'] == 'vehicle_type':
+                        sheet.write(f'I{i}', 'Service type', cell_format)
+                else:
+                    sheet.write(f'F{i}', 'Delivery date', cell_format)
+                    sheet.write(f'G{i}', 'State', cell_format)
+                    sheet.write(f'H{i}', 'Estimated Amount', cell_format)
+                    if data['grouping_method'] == 'service_type':
+                        sheet.write(f'I{i}', 'Vehicle type', cell_format)
+                    if data['grouping_method'] == 'vehicle_type':
+                        sheet.write(f'I{i}', 'Service type', cell_format)
+                for rec in data['report']:
+                    if rec['vehicle_type'] == x:
+                        i += 1
+                        sheet.write(f'C{i}', rec['vehicle_model'], txt)
+                        sheet.write(f'D{i}', rec['vehicle_number'], txt)
+                        if data.get('customer_count') > 1:
+                            sheet.write(f'B{i}', rec['customer'], txt)
+                        if data.get('customer_count') == 0:
+                            sheet.write(f'B{i}', rec['customer'], txt)
+                        if data.get('service_advisor_count') > 1:
+                            sheet.write(f'E{i}', rec['user'], txt)
+                        if data.get('service_advisor_count') == 0:
+                            sheet.write(f'E{i}', rec['user'], txt)
+                            sheet.write(f'F{i}', rec['delivery_date'], txt)
+                            sheet.write(f'G{i}', rec['state'], txt)
+                            sheet.write(f'H{i}', rec['estimated_amount'], txt)
+                            if data['grouping_method'] == 'service_type':
+                                sheet.write(f'I{i}', rec['vehicle_type'], txt)
+                            if data['grouping_method'] == 'vehicle_type':
+                                sheet.write(f'I{i}', rec['service_type'], txt)
+                        else:
+                            sheet.write(f'F{i}', rec['delivery_date'], txt)
+                            sheet.write(f'G{i}', rec['state'], txt)
+                            sheet.write(f'H{i}', rec['estimated_amount'], txt)
+                            if data['grouping_method'] == 'service_type':
+                                sheet.write(f'I{i}', rec['vehicle_type'], txt)
+                            if data['grouping_method'] == 'vehicle_type':
+                                sheet.write(f'I{i}', rec['service_type'], txt)
+                i += 3
         workbook.close()
         output.seek(0)
         response.stream.write(output.read())

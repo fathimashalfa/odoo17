@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    <t t-name="pos.product_cards"
+         t-inherit="point_of_sale.ProductCard"
+         t-inherit-mode="extension">
+             <xpath expr="//div[hasclass('product-content')]/div[1]" position="after">
+                     <t t-if="props.spanish" t-esc="props.spanish"/>
+             </xpath>
+    </t>
+
+</templates>
